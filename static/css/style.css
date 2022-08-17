@@ -1,0 +1,29 @@
+body{
+	text-align: left;
+ background-color: #1F2839;
+ color: white;
+}
+.text{
+	padding-left: 20px;
+}
+.line{
+	display: inline-block;
+}
+.line2{
+	display: inline-block;
+}
+a:visited {
+  color: white;
+  background-color: transparent;
+  text-decoration: none;
+	  }
+ a:link {
+  color: ghostwhite;
+  background-color: transparent;
+  text-decoration: none;
+}
+a:hover {
+  color: whitesmoke;
+  background-color: transparent;
+  text-decoration: underline;
+}

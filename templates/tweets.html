@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	  <div class="header">
+
+  <div class="header-right">
+    <a class="active" href="/all_tweets">Home</a>
+    <a href="/all_tweets/{{current_user}}">own page</a>
+    <a href="index.html">About</a>
+  </div>
+</div>
+<img src="https://i.pinimg.com/564x/6b/cd/a6/6bcda6fb8f5237242c9e9dce8b3b26cb.jpg" class="logo">
+	<link href="static/css/style.css" rel="stylesheet"> 
+	<link href="static/css/head.css" rel="stylesheet"> 
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	{%for k in tweets2 %}
+	<div class=" line">
+	<h3><a href="all_tweets/{{tweets2[k]['uid']}}">{{users[tweets2[k]["uid"]]['name']}}</a> </h3></div> 
+	<div class=" line">
+	<h5>{{tweets2[k]["time"]}}</h5> 
+	</div>
+	<div width="200px" class="text">
+	<p>{{tweets2[k]["text"]}}</p>	
+
+</div>
+	<img src="	{{tweets2[k]['img']}}" width="200px">
+	<br>
+	<div class="line2">
+	<h4>{{tweets2[k]["likes"]}}</h4>
+</div>
+<div class="line2">
+	<form method="POST" action="/like/{{tweets2[k]}}">
+	         
+         	  <input type="image" id="like" name="Name of image button" src="static/img.png" alt="text" width="40">
+    
+    </form>
+</div>
+</div>
+<hr>
+	{%endfor%}
+
+</head>
+<body>
+
+</body>
+</html>
