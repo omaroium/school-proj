@@ -6,6 +6,30 @@
 	<title></title>
 </head>
 <body>
+	<form method="post" action="/massage/{{user}}">
+						 <label>title*</label>
+		 <div>
+				 <input type="title"  name="title" id="titlestr" required >
+		 </div>
+ </div>
+						 <label>texts*</label>
+		 <div>
+				 <input type="text"  name="text" id="textstr" required maxlength = "280">
+		 </div>
+ </div>
+				 </div>
+						 <label>img*</label>
+		 <div>
+				 <input type="text"  name="img" id="imgstr"/>
+		 </div>
+ </div>
 
+				<div>
+		 <input type="submit"/>
+ </div>
+		 </form>
+		 <a href="/massage/{{user}}/{{current_user}}">hi</a>
+
+		 <a href="/massage/{{current_user}}/{{user}}">hi</a>
 </body>
 </html>
