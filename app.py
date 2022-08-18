@@ -92,9 +92,10 @@ def sign_out():
 @app.route('/like/<string:k>', methods=['GET', 'POST'])
 def like(k):
     if request.method == 'POST':
+
         try:
             likes = {'likes' : db.child('Tweets').child(k).get().val()['likes'] + 1}
-            db.child("Tweets").child(k).update(likes')
+            db.child("Tweets").child(k).update(likes)
             return redirect(url_for('all_tweet'))
         except:
             return redirect(url_for('all_tweet'))
