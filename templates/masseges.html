@@ -6,7 +6,7 @@
 	<title></title>
 </head>
 <body>
-	<form method="post" action="/massage/{{user}}">
+	<form method="post" action="/sendmassage/{{user}}">
 						 <label>title*</label>
 		 <div>
 				 <input type="title"  name="title" id="titlestr" required >
@@ -28,8 +28,10 @@
 		 <input type="submit"/>
  </div>
 		 </form>
-		 <a href="/massage/{{user}}/{{current_user}}">hi</a>
 
-		 <a href="/massage/{{current_user}}/{{user}}">hi</a>
+
+{{session}}
+{{thing}}
+
 </body>
 </html>

@@ -107,34 +107,47 @@ def page(user):
     utweets=[]
     hi=user
     tweet=db.child("Tweets").get().val()
-    for x in tweet:
+    for x in db.child("Tweets").get().val():
         if(tweet[x]['uid']==user):
-           utweets.append(tweet[x])
-    return render_template('user_page.html',tweets2=utweets, length=len(utweets),users=db.child("Users").get().val(),user=hi,current_user=login_session['user']['localId'])
+           utweets.append(db.child("Tweets").get().val()[x])
+    if request.method == 'POST':
+        mlist=[]
+        current_user=login_session['user']['localId']
+        isThere=False
+        usersk=db.child("Masseges").child().get().val()
+        session={'uid':current_user,'uido':user,'massages':mlist}
+        for x in usersk:
+            if (user in usersk[x] and current_user in usersk[x]):
+                isThere=True
+                print(isThere)
+        if not (isThere):
+            db.child("Masseges").push(session)
 
 
-@app.route('/massage/<string:other>', methods=['GET', 'POST'])
+    return render_template('user_page.html',tweets2=utweets, length=len(utweets),users=db.child("Users").child().get().val(),user=hi,current_user=login_session['user']['localId'], usersk=db.child("Masseges").child().get().val())
+
+
+@app.route('/sendmassage/<string:other>', methods=['GET', 'POST'])
 def massage1(other):
     if request.method == 'POST':
        try:
-           now = datetime.now()
+           db.child("Masseges").child()
            massage={"title":request.form['title'],"text":request.form['text'], "uid": login_session['user']['localId'],"uido":other,"time":now.strftime("%d/%m/%Y %H"),"likes":0,"img":request.form['img'] }
-           db.child("Masseges").push(massage)
+           mlist.append(massage)
+
+
        except:
            print("Couldn't add article")
-    return render_template("masseges.html",   massages=db.child("Masseges").get().val() ,current_user=login_session['user']['localId'] ,user=other
+    return render_template("masseges.html",   massages=db.child("Masseges").get().val() ,current_user=login_session['user']['localId'] ,user=other ,session=db.child("Users").child().get().val(),thing=db.child("Masseges").child().get().val()
 )
 
-@app.route('/massage/<string:name>/<string:other>', methods=['GET', 'POST'])
-def massage(name,other):
-    tweets=[]
-    masseges=db.child("Masseges").get().val()
-    for x in masseges:
-        if masseges[x]['uid']==name and masseges[x]['uido']==other:
-            tweets.append(masseges[x])
+
+@app.route('/massage/<string:name>', methods=['GET', 'POST'])
+def massage(name):
+    masseges=db.child("Masseges").child().get().val()
 
 
-    return render_template("session.html",tweets=tweets)
+    return render_template("session.html",masseges=masseges[name])
 
 if __name__ == '__main__':
     app.run(debug=True)
