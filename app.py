@@ -105,6 +105,7 @@ def like(k):
 @app.route('/all_tweets/<string:user>', methods=['GET', 'POST'])
 def page(user):
     utweets=[]
+
     hi=user
     tweet=db.child("Tweets").get().val()
     for x in db.child("Tweets").get().val():
@@ -114,11 +115,14 @@ def page(user):
         mlist=[]
         current_user=login_session['user']['localId']
         isThere=False
-        usersk=db.child("Masseges").child().get().val()
+        mlist=[]
         session={'uid':current_user,'uido':user,'massages':mlist}
+        usersk=db.child("Masseges").child().get().val()
+        
         for x in usersk:
-            if (user in usersk[x]['uid'] and current_user in usersk[x]['uid']):
+            if (user == usersk[x]['uido'] and current_user == usersk[x]['uid']):
                 isThere=True
+                print(usersk[x])
                 print(isThere)
         if not (isThere):
             db.child("Masseges").push(session)
