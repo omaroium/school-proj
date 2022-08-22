@@ -117,7 +117,7 @@ def page(user):
         usersk=db.child("Masseges").child().get().val()
         session={'uid':current_user,'uido':user,'massages':mlist}
         for x in usersk:
-            if (user in usersk[x] and current_user in usersk[x]):
+            if (user in usersk[x]['uid'] and current_user in usersk[x]['uid']):
                 isThere=True
                 print(isThere)
         if not (isThere):
