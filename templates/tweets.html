@@ -19,6 +19,7 @@
 	<div class=" line">
 	<h3><a href="all_tweets/{{tweets2[k]['uid']}}">{{users[tweets2[k]["uid"]]['name']}}</a> </h3></div>
 	<div class=" line">
+		{{k}}
 	<h5>{{tweets2[k]["time"]}}</h5>
 	</div>
 	<div width="200px" class="text">
@@ -33,7 +34,7 @@
 </div>
 
 <div class="line2">
-	<form method="POST" action="/like/{{[k]}}">
+	<form method="POST" action="/like/{{k}}">
 
          	  <input type="image" id="like" name="Name of image button" src="static/img.png" alt="text" width="40">
 

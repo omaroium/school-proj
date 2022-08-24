@@ -92,13 +92,10 @@ def sign_out():
 @app.route('/like/<string:k>', methods=['GET', 'POST'])
 def like(k):
     if request.method == 'POST':
-
-        try:
             likes = {'likes' : db.child('Tweets').child(k).get().val()['likes'] + 1}
             db.child("Tweets").child(k).update(likes)
             return redirect(url_for('all_tweet'))
-        except:
-            return redirect(url_for('all_tweet'))
+
     return redirect(url_for('all_tweet'))
 
 
@@ -112,18 +109,20 @@ def page(user):
         if(tweet[x]['uid']==user):
            utweets.append(db.child("Tweets").get().val()[x])
     if request.method == 'POST':
-        mlist=[]
+        mlist=["hi"]
         current_user=login_session['user']['localId']
         isThere=False
-        mlist=[]
+
         session={'uid':current_user,'uido':user,'massages':mlist}
         usersk=db.child("Masseges").child().get().val()
-        
+
         for x in usersk:
-            if (user == usersk[x]['uido'] and current_user == usersk[x]['uid']):
+            if (user == usersk[x]['uido'] and current_user == usersk[x]['uid']) or (current_user == usersk[x]['uido'] and user == usersk[x]['uid']):
                 isThere=True
                 print(usersk[x])
                 print(isThere)
+                if isThere:
+                    return redirect(url_for('massage1',other=x))
         if not (isThere):
             db.child("Masseges").push(session)
 
@@ -133,25 +132,25 @@ def page(user):
 
 @app.route('/sendmassage/<string:other>', methods=['GET', 'POST'])
 def massage1(other):
+    now = datetime.now()
     if request.method == 'POST':
-       try:
-           db.child("Masseges").child()
            massage={"title":request.form['title'],"text":request.form['text'], "uid": login_session['user']['localId'],"uido":other,"time":now.strftime("%d/%m/%Y %H"),"likes":0,"img":request.form['img'] }
+           mlist=db.child("Masseges").child(other).child('massages').get().val()
            mlist.append(massage)
+           print(mlist)
+           db.child("Masseges").child(other).update({'massages':mlist})
+           return redirect(url_for('massage',name=other))
 
-
-       except:
-           print("Couldn't add article")
     return render_template("masseges.html",   massages=db.child("Masseges").get().val() ,current_user=login_session['user']['localId'] ,user=other ,session=db.child("Users").child().get().val(),thing=db.child("Masseges").child().get().val()
 )
 
 
 @app.route('/massage/<string:name>', methods=['GET', 'POST'])
 def massage(name):
-    masseges=db.child("Masseges").child().get().val()
+    masseges=db.child("Masseges").child(name).child('massages').get().val()
 
 
-    return render_template("session.html",masseges=masseges[name])
+    return render_template("session.html",masseges=masseges)
 
 if __name__ == '__main__':
     app.run(debug=True)
