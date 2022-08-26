@@ -7,6 +7,7 @@
     <a class="active" href="/all_tweets">Home</a>
     <a href="/all_tweets/{{current_user}}">own page</a>
     <a href="index.html">About</a>
+		  <a href="/add_tweet">tweet</a>
   </div>
 </div>
 <img src="https://i.pinimg.com/564x/6b/cd/a6/6bcda6fb8f5237242c9e9dce8b3b26cb.jpg" class="logo">
@@ -15,7 +16,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title></title>
-	{%for k in tweets2 %}
+	{%for k in postl %}
 	<div class=" line">
 	<h3><a href="all_tweets/{{tweets2[k]['uid']}}">{{users[tweets2[k]["uid"]]['name']}}</a> </h3></div>
 	<div class=" line">
@@ -39,6 +40,7 @@
          	  <input type="image" id="like" name="Name of image button" src="static/img.png" alt="text" width="40">
 
     </form>
+
 </div>
 </div>
 <hr>

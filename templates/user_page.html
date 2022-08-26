@@ -29,10 +29,16 @@
 
 
 	</form>
-
 	{%for k in range(0,length)%}
 	<div class=" line">
+		{%if current_user==user%}
+		<form method="POST" action="/delete/{{utweetsid[k]}}">
+							<input type="submit" name="delete"  alt="text">
 
+			</form>
+		{%endif%}
+
+{{k}}
 		<h3>{{users[tweets2[k]["uid"]]['name']}}</a> </h3>
 	</div>
 	<div class=" line">
@@ -48,7 +54,7 @@
 		<h4>{{tweets2[k]["likes"]}}</h4>
 	</div>
 	<div class="line2">
-		<form method="POST" action="/like/{{tweets2[k]}}">
+		<form method="POST" action="/like/{{utweetsid[k]}}">
 
 			<input type="image" id="like" name="Name of image button" src="/static/img.png" alt="text" width="40">
 

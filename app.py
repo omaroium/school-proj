@@ -74,6 +74,7 @@ def add_tweet():
 
 @app.route('/all_tweets', methods=['GET', 'POST'])
 def all_tweet():
+    post=list(reversed(sorted(db.child("Tweets").get().val().keys())))
     if request.method == 'POST':
         print("YOOOOOOOOOOOOOOOOOO")
         try:
@@ -82,7 +83,7 @@ def all_tweet():
         except:
             print("Couldn't add article")
             redirect(url_for('add_tweet'))
-    return render_template("tweets.html",tweets2=db.child("Tweets").child().get().val(),users=db.child("Users").get().val(), current_user=login_session['user']['localId'])
+    return render_template("tweets.html",tweets2=db.child("Tweets").child().get().val(),users=db.child("Users").get().val(), current_user=login_session['user']['localId'],postl=post)
 
 @app.route('/sign_out', methods=['GET', 'POST'])
 def sign_out():
@@ -102,12 +103,15 @@ def like(k):
 @app.route('/all_tweets/<string:user>', methods=['GET', 'POST'])
 def page(user):
     utweets=[]
-
+    utweetsid=[]
     hi=user
     tweet=db.child("Tweets").get().val()
     for x in db.child("Tweets").get().val():
         if(tweet[x]['uid']==user):
+           utweetsid.append(x)
            utweets.append(db.child("Tweets").get().val()[x])
+    utweets.reverse()
+    utweetsid.reverse()
     if request.method == 'POST':
         mlist=["hi"]
         current_user=login_session['user']['localId']
@@ -127,7 +131,7 @@ def page(user):
             db.child("Masseges").push(session)
 
 
-    return render_template('user_page.html',tweets2=utweets, length=len(utweets),users=db.child("Users").child().get().val(),user=hi,current_user=login_session['user']['localId'], usersk=db.child("Masseges").child().get().val())
+    return render_template('user_page.html',posts=tweet,utweetsid=utweetsid,tweets2=utweets, length=len(utweets),users=db.child("Users").child().get().val(),user=hi,current_user=login_session['user']['localId'], usersk=db.child("Masseges").child().get().val())
 
 
 @app.route('/sendmassage/<string:other>', methods=['GET', 'POST'])
@@ -151,6 +155,16 @@ def massage(name):
 
 
     return render_template("session.html",masseges=masseges)
+
+
+
+
+@app.route('/delete/<string:k>', methods=['GET', 'POST'])
+def delp(k):
+    if request.method == 'POST':
+            db.child("Tweets").child(k).remove()
+
+    return redirect(url_for('all_tweet'))
 
 if __name__ == '__main__':
     app.run(debug=True)
