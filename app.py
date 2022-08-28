@@ -154,7 +154,7 @@ def massage(name):
     masseges=db.child("Masseges").child(name).child('massages').get().val()
 
 
-    return render_template("session.html",masseges=masseges)
+    return render_template("session.html",masseges=masseges,users=db.child("Users").child().get().val())
 
 
 
