@@ -151,10 +151,12 @@ def massage1(other):
 
 @app.route('/massage/<string:name>', methods=['GET', 'POST'])
 def massage(name):
+    users=db.child("Users").get().val()
+
     masseges=db.child("Masseges").child(name).child('massages').get().val()
 
 
-    return render_template("session.html",masseges=masseges,users=db.child("Users").child().get().val())
+    return render_template("session.html",masseges=masseges,users=users)
 
 
 
